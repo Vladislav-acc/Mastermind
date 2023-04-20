@@ -1,9 +1,8 @@
 #!/usr/local/bin/python3
 
 from PyQt5 import QtGui as qtg, QtCore as qtc, QtWidgets as qtw
-from typing import Optional, Union
 import sys
-from main import Game, Player
+from main import Game
 
 
 class MainWindow(qtw.QMainWindow):
@@ -137,6 +136,7 @@ class MainWindow(qtw.QMainWindow):
                 icon = self.findChild(RoundLabel, f'icon{j}{i}')
                 if i == 0:
                     icon.setColor(self.game_sequence[j])
+                    icon.setHidden(True)
                 else:
                     icon.setColor("gray")
                 if i == self.i:
@@ -156,13 +156,18 @@ class MainWindow(qtw.QMainWindow):
         if self.i < self.game.try_count:
                 self.i += 1
         else:
+            self.enable_game_sequence()
             return self.show_info_box("Вы израсходовали все попытки! Попробуйте снова!")
         for j in range(self.game.peg_count):
             new_child = self.findChild(RoundLabel, f'icon{j}{self.i}')
             new_child.setDisabled(False)
             child = self.findChild(RoundLabel, f'icon{j}{self.i-1}')
             child.setDisabled(True)
-            
+
+    def enable_game_sequence(self):
+        for i in range(self.game.peg_count):
+            new_child = self.findChild(RoundLabel, f'icon{i}{0}')
+            new_child.setHidden(False)       
 
 class RoundLabel(qtw.QLabel):
 

@@ -1,7 +1,5 @@
 #!/usr/local/bin/python3
 
-from collections import Counter
-from typing import Literal
 import random
 
 
